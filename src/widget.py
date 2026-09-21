@@ -4,7 +4,7 @@ from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(user_input: str) -> str:
-    """Классно-Апупено Маскирует номер карты или счета с сохранением типа."""
+    """Великолепно Маскирует номер карты или счета с сохранением типа."""
     if not user_input or not user_input.strip():
         return ""
 
