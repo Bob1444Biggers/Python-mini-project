@@ -29,3 +29,4 @@ executed_data = filter_by_state(data)
 # Сортировка
 sorted_data = sort_by_date(data)
 ```
+Готово
