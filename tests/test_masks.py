@@ -1,21 +1,28 @@
+import pytest
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def test_get_mask_card_number() -> None:
-    """Тест корректной маскировки номера карты."""
-    assert get_mask_card_number("7000792289606361") == "7000 79** **** 6361"
+@pytest.mark.parametrize(
+    "card_number, expected",
+    [
+        ("7000792289606361", "7000 79** **** 6361"),
+        ("1234567890123456", "1234 56** **** 3456"),
+        ("", " ** **** "),  # Граничный случай (пустая строка)
+    ],
+)
+def test_get_mask_card_number(card_number: str, expected: str) -> None:
+    """Тестирование маскирования номера карты с различными входными данными."""
+    assert get_mask_card_number(card_number) == expected
 
 
-def test_get_mask_card_number_empty() -> None:
-    """Тест маскировки карты с пустой строкой."""
-    assert get_mask_card_number("") == " ** **** "
-
-
-def test_get_mask_account() -> None:
-    """Тест корректной маскировки номера счета."""
-    assert get_mask_account("73654108430135874305") == "**4305"
-
-
-def test_get_mask_account_empty() -> None:
-    """Тест маскировки счета с пустой строкой."""
-    assert get_mask_account("") == "**"
+@pytest.mark.parametrize(
+    "account_number, expected",
+    [
+        ("73654108430135874305", "**4305"),
+        ("1234567890", "**7890"),
+        ("", "**"),  # Граничный случай (пустая строка)
+    ],
+)
+def test_get_mask_account(account_number: str, expected: str) -> None:
+    """Тестирование маскирования номера счета с различными входными данными."""
+    assert get_mask_account(account_number) == expected
