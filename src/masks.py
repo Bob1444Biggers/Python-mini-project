@@ -1,34 +1,41 @@
-def get_mask_card_number(card_number: str) -> str:
-    """Маскирует номер банковской карты.
+import logging
+import os
 
-    Формат: XXXX XX** **** XXXX крутых цифирок
-    """
-    # Выделяем нужные части номера с помощью срезов
+os.makedirs("logs", exist_ok=True)
+
+logger = logging.getLogger("masks")
+logger.setLevel(logging.DEBUG)
+
+file_handler = logging.FileHandler(os.path.join("logs", "masks.log"), mode="w", encoding="utf-8")
+file_handler.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+
+def get_mask_card_number(card_number: str) -> str:
+    logger.debug(f"Запрос на маскирование карты. Вход: {card_number}")
     first_block = card_number[:4]
     second_block_visible = card_number[4:6]
     last_block = card_number[-4:]
-
-    # Собираем строку в правильном формате
-    return f"{first_block} {second_block_visible}** **** {last_block}"
+    result = f"{first_block} {second_block_visible}** **** {last_block}"
+    logger.debug(f"Карта успешно замаскирована: {result}")
+    return result
 
 
 def get_mask_account(account_number: str) -> str:
-    """Маскирует номер банковского счета.
-
-    Формат: **XXXX (только последние 4 цифры важны как никак)
-    """
-    # Берем последние 4 цифры
+    logger.debug(f"Запрос на маскирование счета. Вход: {account_number}")
     last_four_digits = account_number[-4:]
-
-    # Возвращаем маску
-    return f"**{last_four_digits}"
+    result = f"**{last_four_digits}"
+    logger.debug(f"Счет успешно замаскирован: {result}")
+    return result
 
 
 if __name__ == "__main__":
-    # Тест функции маскирования карты чтобы проверить работоспособность
     card_result = get_mask_card_number("7000792289606361")
-    print(card_result)  # Ожидается: 7000 79** **** 6361
+    print(card_result)
 
-    # Тест функции маскирования счета чтобы не спалили
     account_result = get_mask_account("73654108430135874305")
-    print(account_result)  # Ожидается: **4305
+    print(account_result)
+
