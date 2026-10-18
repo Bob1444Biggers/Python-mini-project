@@ -1,6 +1,8 @@
-from unittest.mock import patch
 from typing import Any
+from unittest.mock import patch
+
 import pytest
+
 from src.external_api import convert_transaction_amount
 
 
