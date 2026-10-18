@@ -6,10 +6,6 @@ load_dotenv()
 
 
 def convert_transaction_amount(transaction: dict) -> float:
-    """Возвращает сумму транзакции в рублях (тип float).
-
-    Если транзакция в USD или EUR, отправляет запрос к APILayer Exchange Rates Data API.
-    """
     operation_amount = transaction.get("operationAmount", {})
     amount = float(operation_amount.get("amount", 0.0))
     currency = operation_amount.get("currency", {}).get("code", "RUB")
@@ -22,7 +18,7 @@ def convert_transaction_amount(transaction: dict) -> float:
         if not api_key:
             return 0.0
 
-        url = f"https://apilayer.com{currency}&amount={amount}"
+        url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency}&amount={amount}"
         headers = {"apikey": api_key}
 
         try:

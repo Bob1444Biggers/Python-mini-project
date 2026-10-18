@@ -26,3 +26,4 @@ def test_convert_usd_success(mock_getenv: Any, mock_get: Any, usd_transaction: d
     mock_get.return_value.json.return_value = {"result": 8500.00}
 
     assert convert_transaction_amount(usd_transaction) == 8500.00
+    assert mock_get.called
