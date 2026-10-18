@@ -1,4 +1,0 @@
-2026-10-19 02:50:55,146 - utils - DEBUG - Попытка чтения JSON-файла по пути: dummy.json
-2026-10-19 02:50:55,147 - utils - DEBUG - Файл успешно прочитан. Найдено элементов: 1
-2026-10-19 02:50:55,150 - utils - ERROR - Файл не найден по пути: missing.json
-2026-10-19 02:50:55,155 - utils - ERROR - Ошибка декодирования JSON в файле corrupted.json: Expecting value: line 1 column 1 (char 0)

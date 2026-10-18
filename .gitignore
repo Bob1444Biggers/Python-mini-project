@@ -21,3 +21,8 @@ htmlcov/
 
 Thumbs.db
 Desktop.ini
+
+.env
+*.log
+logs/
+
