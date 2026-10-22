@@ -7,7 +7,7 @@ import src.utils as utils
 from src.widget import get_date, mask_account_card
 
 
-def process_bank_search(data: list[dict], search: str) -> list[dict]:
+def process_bank_search(data: list[dict[str, Any]], search: str) -> list[dict[str, Any]]:
     import re
 
     pattern = re.compile(search, re.IGNORECASE)
@@ -19,7 +19,7 @@ def process_bank_search(data: list[dict], search: str) -> list[dict]:
     return result
 
 
-def get_file_transactions() -> list[dict]:
+def get_file_transactions() -> list[dict[str, Any]]:
     print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
     print("Выберите необходимый пункт меню:")
     print("1. Получить информацию о транзакциях из JSON-файла")
@@ -29,33 +29,24 @@ def get_file_transactions() -> list[dict]:
     choice = input("Пользователь: ").strip()
 
     json_path = os.path.join("data", "operations.json")
-    csv_path = os.path.join("data", "transactions.csv")
-    xlsx_path = os.path.join("data", "transactions_excel.xlsx")
-
-    # Получаем динамически любую функцию чтения JSON, которая есть в utils.py
-    read_json_func = (
-        getattr(utils, "read_transactions_from_json", None) or
-        getattr(utils, "get_financial_data", None) or
-        getattr(utils, "read_json", None)
-    )
+    csv_path = os.path.join("data", "operations.csv")
+    xlsx_path = os.path.join("data", "operations.xlsx")
 
     if choice == "1":
         print("Программа: Для обработки выбран JSON-файл.")
-        if read_json_func:
-            return cast(list[dict], read_json_func(json_path))
-        return []
+        return cast(list[dict[str, Any]], utils.read_json_file(json_path))
     elif choice == "2":
         print("Программа: Для обработки выбран CSV-файл.")
-        return cast(list[dict], read_transactions_from_csv(csv_path))
+        return cast(list[dict[str, Any]], read_transactions_from_csv(csv_path))
     elif choice == "3":
         print("Программа: Для обработки выбран XLSX-файл.")
-        return cast(list[dict], read_transactions_from_excel(xlsx_path))
+        return cast(list[dict[str, Any]], read_transactions_from_excel(xlsx_path))
     else:
         print("Неверный выбор.")
         return []
 
 
-def get_status_filter(data: list[dict]) -> list[dict]:
+def get_status_filter(data: list[dict[str, Any]]) -> list[dict[str, Any]]:
     valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
     while True:
         print("Программа: Введите статус, по которому необходимо выполнить фильтрацию")
@@ -66,7 +57,7 @@ def get_status_filter(data: list[dict]) -> list[dict]:
             print(f'Программа: Операции отфильтрованы по статусу "{status_input}"')
             return filter_by_state(data, status_input)
         else:
-            print(f'Программа: Статус операции "{status_input}" недоступен.\n')
+            print(f'Программа: Status операции "{status_input}" недоступен.\n')
 
 
 def main() -> None:
@@ -113,6 +104,7 @@ def main() -> None:
 
     for t in data:
         raw_date = t.get("date", "")
+        # Вот здесь используются функции из widget.py
         date_formatted = get_date(raw_date) if raw_date else "Нет даты"
 
         desc = t.get("description", "Без описания")
