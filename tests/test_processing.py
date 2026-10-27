@@ -1,8 +1,7 @@
-from src.processing import filter_by_state, sort_by_date
+from src.processing import filter_by_state, process_bank_operations, sort_by_date
 
 
 def test_filter_by_state() -> None:
-    """Тест фильтрации списка операций по умолчанию (EXECUTED)."""
     data = [
         {"id": 1, "state": "EXECUTED"},
         {"id": 2, "state": "CANCELED"},
@@ -16,7 +15,6 @@ def test_filter_by_state() -> None:
 
 
 def test_filter_by_state_canceled() -> None:
-    """Тест фильтрации списка по конкретному статусу CANCELED."""
     data = [
         {"id": 1, "state": "EXECUTED"},
         {"id": 2, "state": "CANCELED"},
@@ -27,13 +25,20 @@ def test_filter_by_state_canceled() -> None:
     assert filter_by_state(data, state="CANCELED") == expected
 
 
+def test_filter_by_state_case_insensitive() -> None:
+    data = [
+        {"id": 1, "state": "Executed"},
+        {"id": 2, "state": "canceled"},
+    ]
+    assert filter_by_state(data, state="executed") == [{"id": 1, "state": "Executed"}]
+    assert filter_by_state(data, state="CANCELED") == [{"id": 2, "state": "canceled"}]
+
+
 def test_filter_by_state_empty() -> None:
-    """Тест фильтрации пустого списка."""
     assert filter_by_state([]) == []
 
 
 def test_sort_by_date_descending() -> None:
-    """Тест сортировки по дате от новых к старым (по умолчанию)."""
     data = [
         {"id": 1, "date": "2023-01-01"},
         {"id": 2, "date": "2023-03-01"},
@@ -48,7 +53,6 @@ def test_sort_by_date_descending() -> None:
 
 
 def test_sort_by_date_ascending() -> None:
-    """Тест сортировки по дате от старых к новым (reverse=False)."""
     data = [
         {"id": 1, "date": "2023-01-01"},
         {"id": 2, "date": "2023-03-01"},
@@ -61,5 +65,15 @@ def test_sort_by_date_ascending() -> None:
 
 
 def test_sort_by_date_empty() -> None:
-    """Тест сортировки пустого списка по дате."""
     assert sort_by_date([]) == []
+
+
+def test_process_bank_operations() -> None:
+    data = [
+        {"id": 1, "description": "Перевод организации"},
+        {"id": 2, "description": "Перевод с карты на карту"},
+        {"id": 3, "description": "Перевод организации"},
+    ]
+    categories = ["Перевод организации", "Открытие вклада"]
+    expected = {"Перевод организации": 2, "Открытие вклада": 0}
+    assert process_bank_operations(data, categories) == expected
