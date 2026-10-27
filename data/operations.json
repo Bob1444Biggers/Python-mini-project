@@ -1,0 +1,61 @@
+[
+  {
+    "id": 441946175,
+    "state": "EXECUTED",
+    "date": "2019-12-08T22:46:21.001131",
+    "operationAmount": {
+      "amount": "40542.12",
+      "currency": {
+        "name": "руб.",
+        "code": "RUB"
+      }
+    },
+    "description": "Открытие вклада",
+    "to": "Счет **4321"
+  },
+  {
+    "id": 594228432,
+    "state": "EXECUTED",
+    "date": "2019-11-12T02:44:11.021111",
+    "operationAmount": {
+      "amount": "130.00",
+      "currency": {
+        "name": "USD",
+        "code": "USD"
+      }
+    },
+    "description": "Перевод с карты на карту",
+    "from": "MasterCard 7771274526313727",
+    "to": "Visa Platinum 1293385264819203"
+  },
+  {
+    "id": 124356789,
+    "state": "EXECUTED",
+    "date": "2018-07-18T15:23:44.123456",
+    "operationAmount": {
+      "amount": "8390.00",
+      "currency": {
+        "name": "руб.",
+        "code": "RUB"
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Visa Platinum 7492651132477202",
+    "to": "Счет **0034"
+  },
+  {
+    "id": 987654321,
+    "state": "EXECUTED",
+    "date": "2018-06-03T11:12:00.000000",
+    "operationAmount": {
+      "amount": "8200.00",
+      "currency": {
+        "name": "EUR",
+        "code": "EUR"
+      }
+    },
+    "description": "Перевод со счета на счет",
+    "from": "Счет **2935",
+    "to": "Счет **4321"
+  }
+]
